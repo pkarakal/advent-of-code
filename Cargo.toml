@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Pavlos Karakalidis <pkarakal@pkarakal.com>"]
 
 [workspace]
-members = ["common"]
+members = ["aoc2023", "common"]
 
 [dependencies]
 clap = { version = "4.4.10", features = ["default", "derive"] }
