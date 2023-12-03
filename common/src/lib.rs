@@ -1,7 +1,6 @@
 use std::{fs, io};
 use std::fmt::{Display, Formatter};
 use std::path::Path;
-use std::process::exit;
 
 #[derive(Debug, PartialEq)]
 pub enum Answer {
