@@ -1,4 +1,4 @@
-use std::ops::Index;
+use std::collections::HashMap;
 use common::{Answer, Solution};
 
 pub struct Day4;
@@ -20,23 +20,24 @@ impl Solution for Day4 {
 
     fn part_two(&self, input: &str) -> Answer {
         let cards = parse(input);
-        let mut cards_cloned = cards.clone();
-        let mut visited: u32 = 0;
 
-        while let Some(card) = cards_cloned.pop() {
-            let win_count = card.get_winning_numbers();
-            visited += 1;
+        let mut copies: HashMap<usize, usize> = HashMap::new();
 
-            if win_count == 0 {
-                continue;
-            }
-
-            for i in card.number + 1..=card.number + win_count {
-                cards_cloned.push(cards[i - 1].clone());
-            }
+        for card in cards.clone() {
+            copies.insert(card.number, 1);
         }
 
-        return visited.into();
+        for (i, card) in cards.iter().enumerate() {
+            let nums = card
+                .scratch
+                .iter()
+                .filter(|x| card.winning.contains(x))
+                .count();
+            for j in 1..=nums {
+                *copies.entry(i+j+1).or_default() += copies[&(i+1)];
+            }
+        }
+        copies.values().sum::<usize>().into()
     }
 }
 
@@ -93,6 +94,6 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
 
     #[test]
     fn test_part_two() {
-        assert_eq!(Day4.part_two(CASE_A), Answer::U32(30))
+        assert_eq!(Day4.part_two(CASE_A), Answer::USize(30))
     }
 }
