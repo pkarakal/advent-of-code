@@ -1,6 +1,5 @@
 use common::{Answer, Solution};
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-use rayon::slice::ParallelSlice;
 
 pub struct Day5;
 
