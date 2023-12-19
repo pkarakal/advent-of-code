@@ -4,11 +4,17 @@ use std::path::Path;
 
 #[derive(Debug, PartialEq)]
 pub enum Answer {
+    I64(i64),
     U32(u32),
     U64(u64),
     USize(usize)
 }
 
+impl From<i64> for Answer {
+    fn from(n: i64) -> Self {
+        Self::I64(n as i64)
+    }
+}
 
 impl From<u32> for Answer {
     fn from(n: u32) -> Self {
@@ -33,7 +39,8 @@ impl Display for Answer{
         match self {
             Answer::USize(u) => write!(f, "{u}"),
             Answer::U32(n) => write!(f, "{n}"),
-            Answer::U64(n) => write!(f, "{n}")
+            Answer::U64(n) => write!(f, "{n}"),
+            Answer::I64(n) => write!(f, "{n}")
         }
     }
 }
