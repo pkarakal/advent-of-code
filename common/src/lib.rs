@@ -54,3 +54,16 @@ pub fn load_file(year: u32, day: u32) -> io::Result<String> {
     let file = Path::new(&file_name);
     return parse_file(file);
 }
+
+
+fn gcd(a: usize, b: usize) -> usize {
+    match b {
+        0 => a,
+        // Rerun the function with b and the remainder of a / b
+        _ => gcd(b, a % b),
+    }
+}
+
+pub fn lcm(a: usize, b: usize) -> usize {
+    a * b / gcd(a, b)
+}
