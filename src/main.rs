@@ -48,6 +48,7 @@ fn main() {
 fn get_solutions_for_year<'a>(year: u32) -> Vec<&'a dyn Solution> {
     match year  {
         2023 => aoc2023::ALL.to_vec(),
+        2024 => aoc2024::ALL.to_vec(),
         _ => unimplemented!()
     }
 }

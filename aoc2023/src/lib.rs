@@ -7,6 +7,7 @@ pub mod day_6;
 pub mod day_7;
 pub mod day_8;
 pub mod day_9;
+pub mod day_10;
 
 pub const ALL: &[&dyn common::Solution] = &[
     &day_1::Day1,
@@ -18,4 +19,5 @@ pub const ALL: &[&dyn common::Solution] = &[
     &day_7::Day7,
     &day_8::Day8,
     &day_9::Day9,
+    &day_10::Day10,
 ];
