@@ -5,27 +5,27 @@ pub struct Day3;
 
 impl Solution for Day3 {
     fn name(&self) -> String {
-        return "Day 3".into();
+        "Day 3".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
-        return parse(input)
+        parse(input)
             .gears
             .iter()
             .filter(|g| g.part_number)
             .map(|x| x.value)
             .sum::<u32>()
-            .into();
+            .into()
     }
 
     fn part_two(&self, input: &str) -> Answer {
-        return parse(input)
+        parse(input)
             .ratios
             .iter()
             .filter(|(_, c)| c.len() == 2)
             .map(|(_, x)| x[0] * x[1])
             .sum::<u32>()
-            .into();
+            .into()
     }
 }
 
@@ -123,7 +123,7 @@ fn parse(input: &str) -> ParsedInput {
     }
 
 
-    return ParsedInput{ gears, ratios}
+    ParsedInput{ gears, ratios}
 }
 
 

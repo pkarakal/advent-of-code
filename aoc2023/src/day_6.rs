@@ -11,14 +11,9 @@ struct Race {
 
 impl Race {
     fn get_winning_ways(&self) -> usize {
-        let count = (0..self.time)
-            .into_iter()
+        (0..self.time)
             .filter(|x| (self.time - x) * SPEED*x > self.distance)
             .count()
-            .into();
-
-        return count;
-
     }
 }
 
@@ -26,7 +21,7 @@ pub struct Day6;
 
 impl Solution for Day6{
     fn name(&self) -> String {
-        return "Day 6".into()
+        "Day 6".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
@@ -60,7 +55,6 @@ fn parse_one(input: &str) -> Vec<Race> {
           Race{time, distance}
         })
         .collect::<Vec<Race>>()
-        .into()
 }
 
 
@@ -76,7 +70,7 @@ fn parse_two(input: &str) -> Race {
         })
         .next_tuple()
         .unwrap();
-    return Race {time, distance}
+    Race {time, distance}
 }
 
 

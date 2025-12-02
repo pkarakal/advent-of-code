@@ -17,7 +17,7 @@ impl Sequence {
                 .collect::<Vec<_>>();
             derived.push(items)
         }
-        return derived
+        derived
     }
 
     fn predict(&self) -> i64 {
@@ -26,7 +26,7 @@ impl Sequence {
 
     fn reverse(&mut self) -> &Self {
         self.values.reverse();
-        return self
+        self
     }
 
     fn extrapolate(&mut self) -> i64 {
@@ -38,7 +38,7 @@ pub struct Day9;
 
 impl Solution for Day9 {
     fn name(&self) -> String {
-        return "Day 9".into();
+        "Day 9".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
@@ -65,11 +65,9 @@ impl Solution for Day9 {
 fn parse(input: &str) -> Vec<Sequence> {
     input
         .lines()
-        .into_iter()
         .map(|x| Sequence {
             values: x
                 .split_whitespace()
-                .into_iter()
                 .map(|i|
                     i
                         .parse()

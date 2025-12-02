@@ -32,6 +32,7 @@ struct Point {
     y: i64,
 }
 
+#[allow(dead_code)]
 impl Point {
     fn new(x: i64, y: i64) -> Self {
         Point { x, y }
@@ -217,7 +218,7 @@ fn determine_start_tile(maze: &Maze) -> Tile {
         Direction::Right => 3,
     });
 
-    match (connections.get(0), connections.get(1)) {
+    match (connections.first(), connections.get(1)) {
         (Some(&Direction::Up), Some(&Direction::Down)) => Tile::VerticalPipe,
         (Some(&Direction::Left), Some(&Direction::Right)) => Tile::HorizontalPipe,
         (Some(&Direction::Up), Some(&Direction::Right)) => Tile::NorthEastBend,

@@ -5,7 +5,7 @@ pub struct Day5;
 
 impl Solution for Day5 {
     fn name(&self) -> String {
-        return "Day 5".into();
+        "Day 5".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
@@ -14,7 +14,7 @@ impl Solution for Day5 {
 
         let min = seeds.par_iter().map(|s| find_location(&mappings, *s)).min().unwrap();
 
-        return min.into();
+        min.into()
     }
 
     // TODO: optimize part two and fix off-by-one bug
@@ -47,7 +47,6 @@ fn parse(input: &str) -> RangeResult {
         .split(":")
         .last()
         .unwrap()
-        .trim()
         .split_whitespace()
         .map(|x| x.parse().unwrap())
         .collect::<Vec<u64>>();
@@ -57,7 +56,6 @@ fn parse(input: &str) -> RangeResult {
     let mut maps = vec![];
 
     let ranges = input_categories
-        .into_iter()
         .filter(|x| !x.is_empty())
         .map(|x| x.split(":").last().unwrap())
         .collect::<Vec<&str>>();
@@ -111,7 +109,7 @@ impl CategoryMap {
 }
 
 // Step through the maps and until we find the location
-fn find_location(maps: &Vec<CategoryMap>, location: u64) -> u64 {
+fn find_location(maps: &[CategoryMap], location: u64) -> u64 {
     maps.iter().fold(location, |loc, map| map.transform(loc))
 }
 

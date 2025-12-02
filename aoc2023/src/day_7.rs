@@ -31,7 +31,7 @@ impl CamelCard {
                 return a.cmp(&b);
             }
         }
-        return Ordering::Equal;
+        Ordering::Equal
     }
 
     fn classify(&self) -> CardType {
@@ -40,17 +40,17 @@ impl CamelCard {
             card_counts[13 - card as usize] += 1;
         }
 
-        if card_counts.iter().any(|&c| c == 5) {
+        if card_counts.contains(&5) {
             CardType::FiveOfAKind
-        } else if card_counts.iter().any(|&c| c == 4) {
+        } else if card_counts.contains(&4) {
             FourOfAKind
-        } else if card_counts.iter().any(|&c| c == 3) && card_counts.iter().any(|&c| c == 2) {
+        } else if card_counts.contains(&3) && card_counts.contains(&2) {
             FullHouse
-        } else if card_counts.iter().any(|&c| c == 3) {
+        } else if card_counts.contains(&3) {
             ThreeOfAKind
         } else if card_counts.iter().filter(|&&c| c == 2).count() == 2 {
             TwoPair
-        } else if card_counts.iter().any(|&c| c == 2) {
+        } else if card_counts.contains(&2) {
             OnePair
         } else {
             HighCard
@@ -72,7 +72,7 @@ impl CamelCard {
             .rev()
             .collect::<Vec<_>>();
 
-        return if counts.len() <= 1 || counts[0] + jacks == 5 {
+        if counts.len() <= 1 || counts[0] + jacks == 5 {
             FiveOfAKind
         } else if counts[0] + jacks == 4 {
             FourOfAKind
@@ -80,13 +80,13 @@ impl CamelCard {
             FullHouse
         } else if counts[0] + jacks == 3 {
             ThreeOfAKind
-        } else if (counts[0] + jacks == 2 && counts[1] == 2) || (counts[0] + jacks == 2 && counts[1] == 2) {
+        } else if !(counts[0] + jacks != 2 || counts[1] != 2) {
             TwoPair
         } else if counts[0] + jacks == 2 {
             OnePair
         } else {
             HighCard
-        };
+        }
     }
 }
 
@@ -94,7 +94,7 @@ pub struct Day7;
 
 impl Solution for Day7 {
     fn name(&self) -> String {
-        return "Day 7".into();
+        "Day 7".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
@@ -136,10 +136,8 @@ fn parse(input: &str, card_sequence: String) -> Vec<CamelCard> {
     let mut hands = Vec::new();
 
     for line in input.lines() {
-        let mut input_iter = line.split_whitespace().into_iter();
-
-        let cards = input_iter.next().unwrap();
-        let bid = input_iter.last().unwrap();
+        let cards = line.split_whitespace().next().unwrap();
+        let bid = line.split_whitespace().last().unwrap();
 
         let cards = cards.as_bytes()
             .iter()
@@ -150,7 +148,7 @@ fn parse(input: &str, card_sequence: String) -> Vec<CamelCard> {
         hands.push(CamelCard { cards, bid });
     }
 
-    return hands;
+    hands
 }
 
 #[cfg(test)]

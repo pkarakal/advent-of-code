@@ -5,17 +5,17 @@ pub struct Day4;
 
 impl Solution for Day4 {
     fn name(&self) -> String {
-        return "Day 4".into();
+        "Day 4".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
-        return parse(input)
+        parse(input)
             .iter()
             .map(|x| x.get_winning_numbers())
             .filter(|x| *x > 0)
             .map(|x| 2u32.pow((x - 1) as u32))
             .sum::<u32>()
-            .into();
+            .into()
     }
 
     fn part_two(&self, input: &str) -> Answer {
@@ -63,15 +63,15 @@ fn parse(input: &str) -> Vec<Card> {
     for (index, input_line) in input.lines().enumerate() {
         let (_, line) = input_line.split_once(":").unwrap();
         let (winning_numbers, scratch_numbers) = line.trim().split_once("|").unwrap();
-        let winning: Vec<u32> = winning_numbers.trim().split_whitespace().map(|x| x.parse().unwrap()).collect();
-        let scratch: Vec<u32> = scratch_numbers.trim().split_whitespace().map(|x| x.parse().unwrap()).collect();
+        let winning: Vec<u32> = winning_numbers.split_whitespace().map(|x| x.parse().unwrap()).collect();
+        let scratch: Vec<u32> = scratch_numbers.split_whitespace().map(|x| x.parse().unwrap()).collect();
         cards.push(Card {
             number: index + 1,
             winning,
             scratch,
         })
     }
-    return cards;
+    cards
 }
 
 

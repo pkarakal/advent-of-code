@@ -5,18 +5,18 @@ pub struct Day3;
 
 impl Solution for Day3 {
     fn name(&self) -> String {
-        return "Day 3".into();
+        "Day 3".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let items = parse_a(input);
         items.iter().fold(0, |sum, x| {
-            sum + (x.iter().fold(1, |mul, i| mul*i))
+            sum + (x.iter().product::<usize>())
         }).into()
     }
     fn part_two(&self, input: &str) -> Answer {
         let items = parse_b(input);
         items.iter().fold(0, |sum, x| {
-            sum + (x.iter().fold(1, |mul, i| mul*i))
+            sum + (x.iter().product::<usize>())
         }).into()
     }
 }
@@ -43,7 +43,7 @@ struct Parser {
 
 impl Parser {
     pub fn new(input: &str) -> Self {
-        return Parser {
+        Parser {
             chars: input.chars().collect(),
             idx: 0
         }

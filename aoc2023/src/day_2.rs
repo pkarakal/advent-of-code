@@ -9,7 +9,7 @@ struct CubeSet {
 
 impl CubeSet {
     fn is_possible(&self) -> bool {
-        return self.red <= VALID_GAME.red && self.green <= VALID_GAME.green && self.blue <= VALID_GAME.blue;
+        self.red <= VALID_GAME.red && self.green <= VALID_GAME.green && self.blue <= VALID_GAME.blue
     }
 
     fn get_min_count_to_possible(&self, right: &Self) -> Self {
@@ -32,7 +32,7 @@ pub struct Day2;
 
 impl Solution for Day2 {
     fn name(&self) -> String {
-        return "Day 2".into();
+        "Day 2".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         parse_lines(input)
@@ -62,7 +62,7 @@ impl Solution for Day2 {
 }
 
 fn parse_lines(input: &str) -> Vec<Vec<CubeSet>> {
-    let items: Vec<Vec<CubeSet>> = input
+    input
         .lines()
         .map(|line| {
             let cubes = line.split_once(':').unwrap().1;
@@ -83,8 +83,7 @@ fn parse_lines(input: &str) -> Vec<Vec<CubeSet>> {
                 sets.push(cube_set)
             }
             sets
-        }).collect();
-    return items;
+        }).collect::<Vec<Vec<CubeSet>>>()
 }
 
 

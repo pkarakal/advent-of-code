@@ -4,7 +4,7 @@ pub struct Day1;
 
 impl Solution for Day1 {
     fn name(&self) -> String {
-        return "Day 1".into();
+        "Day 1".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let (mut left, mut right) = parse(input);
@@ -14,7 +14,7 @@ impl Solution for Day1 {
         let item = left.iter().enumerate().fold(0, |sum, (idx, val)|{
             sum + (val - right.get(idx).unwrap()).abs()
         });
-        return item.into()
+        item.into()
     }
     fn part_two(&self, input: &str) -> Answer {
         let (left, right) = parse(input);
@@ -28,7 +28,7 @@ impl Solution for Day1 {
             sum + score
         });
 
-        return item.into()
+        item.into()
     }
 }
 

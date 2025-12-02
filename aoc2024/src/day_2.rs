@@ -5,7 +5,7 @@ pub struct Day2;
 
 impl Solution for Day2 {
     fn name(&self) -> String {
-        return "Day 2".into();
+        "Day 2".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let items = parse(input);
@@ -42,7 +42,7 @@ fn tolerates_one_failure(input: &Vec<i64>, skip: Option<usize>) -> bool {
     let values_iter = input
         .iter()
         .enumerate()
-        .filter(|(idx, val)| skip.is_none() || Some(*idx) != skip)
+        .filter(|(idx, _)| skip.is_none() || Some(*idx) != skip)
         .map(|(_, x)| *x);
 
     let mut diffs = values_iter

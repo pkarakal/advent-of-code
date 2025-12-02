@@ -11,7 +11,7 @@ pub struct Day2;
 
 impl Solution for Day2 {
     fn name(&self) -> String {
-        return "Day 2".into();
+        "Day 2".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let ranges = parse(input);
@@ -21,14 +21,13 @@ impl Solution for Day2 {
             .into_iter()
             .flat_map(|range|
                      (range.start..=range.end)
-                         .into_iter()
                          .filter(|&i| {
                              let n_str = i.to_string();
                              if n_str.len() % 2 != 0 {
                                  return false;
                              }
                              let mid = n_str.len() / 2;
-                             return n_str[..mid] == n_str[mid..]
+                             n_str[..mid] == n_str[mid..]
                          })
             )
             .sum::<usize>()
@@ -65,7 +64,7 @@ fn parse(input: &str) -> Vec<Range> {
     input
         .lines()
         .map(str::trim)
-        .map(|line| {
+        .flat_map(|line| {
             line.split(',')
                 .map(str::trim)
                 .filter(|s| !s.is_empty())
@@ -77,7 +76,6 @@ fn parse(input: &str) -> Vec<Range> {
                 })
                 .collect::<Vec<Range>>()
         })
-        .flatten()
         .collect()
 }
 

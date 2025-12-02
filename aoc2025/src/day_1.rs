@@ -15,7 +15,7 @@ pub struct Day1;
 
 impl Solution for Day1 {
     fn name(&self) -> String {
-        return "Day 1".into();
+        "Day 1".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let directions = parse(input);

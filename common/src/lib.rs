@@ -17,25 +17,25 @@ impl From<u16> for Answer {
 
 impl From<i64> for Answer {
     fn from(n: i64) -> Self {
-        Self::I64(n as i64)
+        Self::I64(n)
     }
 }
 
 impl From<u32> for Answer {
     fn from(n: u32) -> Self {
-        Self::U32(n as u32)
+        Self::U32(n)
     }
 }
 
 impl From<usize> for Answer {
     fn from(n: usize) -> Self {
-        Self::USize(n as usize)
+        Self::USize(n)
     }
 }
 
 impl From<u64> for Answer {
     fn from(n: u64) -> Self {
-        Self::U64(n as u64)
+        Self::U64(n)
     }
 }
 
@@ -59,13 +59,13 @@ pub trait Solution {
 }
 
 pub fn parse_file(file: &Path) -> io::Result<String>{
-    return fs::read_to_string(file);
+    fs::read_to_string(file)
 }
 
 pub fn load_file(year: u32, day: u32) -> io::Result<String> {
     let file_name = format!("data/{}/{:02}.txt", year, day);
     let file = Path::new(&file_name);
-    return parse_file(file);
+    parse_file(file)
 }
 
 

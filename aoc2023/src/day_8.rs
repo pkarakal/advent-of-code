@@ -37,7 +37,7 @@ pub struct Day8;
 
 impl Solution for Day8 {
     fn name(&self) -> String {
-        return "Day 8".into();
+        "Day 8".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
@@ -55,7 +55,7 @@ impl Solution for Day8 {
             }
         }
 
-        return i.into();
+        i.into()
     }
 
     fn part_two(&self, input: &str) -> Answer {
@@ -90,17 +90,16 @@ impl Solution for Day8 {
     }
 }
 
-fn parse(input: &str) -> InstructionMap {
+fn parse(input: &'_ str) -> InstructionMap<'_> {
     let (instructions, node_list) = input.split_once("\n\n").unwrap();
     let instructions = instructions
         .chars()
-        .into_iter()
         .map(|x| x.into())
         .collect::<Vec<Instruction>>();
 
     let mut nodes = HashMap::new();
 
-    for item in node_list.lines().into_iter() {
+    for item in node_list.lines() {
         let (node_name, children_nodes) = item.split_once(" = ").unwrap();
         let (left, right) = children_nodes
             .trim_start_matches('(')
@@ -111,10 +110,10 @@ fn parse(input: &str) -> InstructionMap {
         nodes.insert(node_name.trim(), (left, right));
     }
 
-    return InstructionMap {
+    InstructionMap {
         instructions,
         nodes,
-    };
+    }
 }
 
 #[cfg(test)]
