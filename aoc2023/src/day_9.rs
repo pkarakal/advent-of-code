@@ -11,13 +11,10 @@ impl Sequence {
         while !derived.last().unwrap().iter().all(|&x| x == 0) {
             let last = derived.last().unwrap();
 
-            let items = last
-                .windows(2)
-                .map(|x| x[1] - x[0])
-                .collect::<Vec<_>>();
+            let items = last.windows(2).map(|x| x[1] - x[0]).collect::<Vec<_>>();
             derived.push(items)
         }
-        return derived
+        derived
     }
 
     fn predict(&self) -> i64 {
@@ -26,7 +23,7 @@ impl Sequence {
 
     fn reverse(&mut self) -> &Self {
         self.values.reverse();
-        return self
+        self
     }
 
     fn extrapolate(&mut self) -> i64 {
@@ -38,24 +35,20 @@ pub struct Day9;
 
 impl Solution for Day9 {
     fn name(&self) -> String {
-        return "Day 9".into();
+        "Day 9".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
         let items: Vec<Sequence> = parse(input);
 
-        items
-            .iter()
-            .map(Sequence::predict)
-            .sum::<i64>()
-            .into()
+        items.iter().map(Sequence::predict).sum::<i64>().into()
     }
 
     fn part_two(&self, input: &str) -> Answer {
         let mut items: Vec<Sequence> = parse(input);
 
-        items.
-            iter_mut()
+        items
+            .iter_mut()
             .map(Sequence::extrapolate)
             .sum::<i64>()
             .into()
@@ -65,25 +58,19 @@ impl Solution for Day9 {
 fn parse(input: &str) -> Vec<Sequence> {
     input
         .lines()
-        .into_iter()
         .map(|x| Sequence {
             values: x
                 .split_whitespace()
-                .into_iter()
-                .map(|i|
-                    i
-                        .parse()
-                        .unwrap()
-                )
-                .collect::<Vec<i64>>()
+                .map(|i| i.parse().unwrap())
+                .collect::<Vec<i64>>(),
         })
         .collect()
 }
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_9::Day9;
+    use common::Solution;
 
     const CASE_A: &str = "0 3 6 9 12 15
 1 3 6 10 15 21

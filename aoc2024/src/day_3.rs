@@ -5,47 +5,52 @@ pub struct Day3;
 
 impl Solution for Day3 {
     fn name(&self) -> String {
-        return "Day 3".into();
+        "Day 3".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let items = parse_a(input);
-        items.iter().fold(0, |sum, x| {
-            sum + (x.iter().fold(1, |mul, i| mul*i))
-        }).into()
+        items
+            .iter()
+            .fold(0, |sum, x| sum + (x.iter().product::<usize>()))
+            .into()
     }
     fn part_two(&self, input: &str) -> Answer {
         let items = parse_b(input);
-        items.iter().fold(0, |sum, x| {
-            sum + (x.iter().fold(1, |mul, i| mul*i))
-        }).into()
+        items
+            .iter()
+            .fold(0, |sum, x| sum + (x.iter().product::<usize>()))
+            .into()
     }
 }
 
 fn parse_a(input: &str) -> Vec<Vec<usize>> {
     let re = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
-    input.lines().map(str::trim).flat_map(|line| {
-        re.captures_iter(line)
-        .filter_map(|capture| {
-            let mut items = vec![];
-            let x = capture.get(1).unwrap().as_str().parse::<usize>().ok()?;
-            let y = capture.get(2).unwrap().as_str().parse::<usize>().ok()?;
-            items.push(x);
-            items.push(y);
-            Some(items)
+    input
+        .lines()
+        .map(str::trim)
+        .flat_map(|line| {
+            re.captures_iter(line).filter_map(|capture| {
+                let mut items = vec![];
+                let x = capture.get(1).unwrap().as_str().parse::<usize>().ok()?;
+                let y = capture.get(2).unwrap().as_str().parse::<usize>().ok()?;
+                items.push(x);
+                items.push(y);
+                Some(items)
+            })
         })
-    }).collect()
+        .collect()
 }
 
 struct Parser {
     chars: Vec<char>,
-    idx: usize
+    idx: usize,
 }
 
 impl Parser {
     pub fn new(input: &str) -> Self {
-        return Parser {
+        Parser {
             chars: input.chars().collect(),
-            idx: 0
+            idx: 0,
         }
     }
 
@@ -79,7 +84,6 @@ impl Parser {
     pub fn is_eof(&self) -> bool {
         self.idx >= self.chars.len()
     }
-
 }
 
 fn parse_b(input: &str) -> Vec<Vec<usize>> {
@@ -93,30 +97,28 @@ fn parse_b(input: &str) -> Vec<Vec<usize>> {
         active &= !parser.expect("don't()");
 
         if parser.expect("mul(") {
-            let Some(a) = parser.number() else {continue};
+            let Some(a) = parser.number() else { continue };
             if !parser.expect(",") {
                 continue;
             }
-            let Some(b) = parser.number() else {continue};
+            let Some(b) = parser.number() else { continue };
             if !parser.expect(")") {
                 continue;
             }
             if active {
-                out.push(vec![a,b]);
+                out.push(vec![a, b]);
             }
         } else {
             parser.advance(1);
         }
     }
     out
-
 }
-
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_3::Day3;
+    use common::Solution;
 
     const CASE_A: &str = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
 ";

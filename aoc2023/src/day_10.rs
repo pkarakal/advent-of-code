@@ -1,7 +1,7 @@
-use std::ops::{Add, Mul};
-use std::collections::HashSet;
-use common::{Answer, Solution};
 use crate::day_10::Tile::StartingPosition;
+use common::{Answer, Solution};
+use std::collections::HashSet;
+use std::ops::{Add, Mul};
 
 #[derive(Debug, Default)]
 struct Maze {
@@ -32,6 +32,7 @@ struct Point {
     y: i64,
 }
 
+#[allow(dead_code)]
 impl Point {
     fn new(x: i64, y: i64) -> Self {
         Point { x, y }
@@ -118,7 +119,12 @@ impl Tile {
             Tile::NorthWestBend => vec![Direction::Up, Direction::Left],
             Tile::SouthWestBend => vec![Direction::Down, Direction::Left],
             Tile::SouthEastBend => vec![Direction::Down, Direction::Right],
-            Tile::StartingPosition => vec![Direction::Up, Direction::Down, Direction::Left, Direction::Right],
+            Tile::StartingPosition => vec![
+                Direction::Up,
+                Direction::Down,
+                Direction::Left,
+                Direction::Right,
+            ],
             Tile::Ground => vec![],
         }
     }
@@ -149,7 +155,7 @@ impl From<char> for Tile {
             'F' => Tile::SouthEastBend,
             '.' => Tile::Ground,
             'S' => Tile::StartingPosition,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -158,22 +164,27 @@ fn find_loop(maze: &Maze) -> Vec<Point> {
     let start = maze.start_position;
 
     // Find the first valid direction from start
-    let first_dir = [Direction::Up, Direction::Down, Direction::Left, Direction::Right]
-        .iter()
-        .find(|&&dir| {
-            let next = dir.next_point(&start);
-            if let Some(tile) = maze.get(&next) {
-                // Check if the tile is not ground and connects back to us
-                match tile {
-                    Tile::Ground => false,
-                    _ => tile.connects_to(dir.opposite())
-                }
-            } else {
-                false
+    let first_dir = [
+        Direction::Up,
+        Direction::Down,
+        Direction::Left,
+        Direction::Right,
+    ]
+    .iter()
+    .find(|&&dir| {
+        let next = dir.next_point(&start);
+        if let Some(tile) = maze.get(&next) {
+            // Check if the tile is not ground and connects back to us
+            match tile {
+                Tile::Ground => false,
+                _ => tile.connects_to(dir.opposite()),
             }
-        })
-        .copied()
-        .expect("No valid starting direction found");
+        } else {
+            false
+        }
+    })
+    .copied()
+    .expect("No valid starting direction found");
 
     let mut path = vec![start];
     let mut current = first_dir.next_point(&start);
@@ -183,7 +194,9 @@ fn find_loop(maze: &Maze) -> Vec<Point> {
         path.push(current);
 
         let tile = maze.get(&current).expect("Invalid position in loop");
-        let next_dir = tile.next_direction(from_dir).expect("No valid next direction");
+        let next_dir = tile
+            .next_direction(from_dir)
+            .expect("No valid next direction");
 
         from_dir = next_dir;
         current = next_dir.next_point(&current);
@@ -196,7 +209,12 @@ fn determine_start_tile(maze: &Maze) -> Tile {
     let start = maze.start_position;
     let mut connections = Vec::new();
 
-    for dir in [Direction::Up, Direction::Down, Direction::Left, Direction::Right] {
+    for dir in [
+        Direction::Up,
+        Direction::Down,
+        Direction::Left,
+        Direction::Right,
+    ] {
         let next = dir.next_point(&start);
         if let Some(tile) = maze.get(&next) {
             match tile {
@@ -217,7 +235,7 @@ fn determine_start_tile(maze: &Maze) -> Tile {
         Direction::Right => 3,
     });
 
-    match (connections.get(0), connections.get(1)) {
+    match (connections.first(), connections.get(1)) {
         (Some(&Direction::Up), Some(&Direction::Down)) => Tile::VerticalPipe,
         (Some(&Direction::Left), Some(&Direction::Right)) => Tile::HorizontalPipe,
         (Some(&Direction::Up), Some(&Direction::Right)) => Tile::NorthEastBend,
@@ -306,24 +324,24 @@ fn parse(input: &str) -> Maze {
     let start_point = tiles
         .iter()
         .enumerate()
-        .find_map(|(y, row)| row.iter()
-            .enumerate()
-            .find_map(|(x, c)| match c {
+        .find_map(|(y, row)| {
+            row.iter().enumerate().find_map(|(x, c)| match c {
                 StartingPosition => Some(Point::new(x as i64, y as i64)),
-                _ => None
-            }))
+                _ => None,
+            })
+        })
         .unwrap();
 
     Maze {
         start_position: start_point,
-        tiles
+        tiles,
     }
 }
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_10::Day10;
+    use common::Solution;
 
     const CASE_A: &str = ".....
 .S-7.

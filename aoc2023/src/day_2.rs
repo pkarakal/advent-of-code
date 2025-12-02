@@ -9,7 +9,7 @@ struct CubeSet {
 
 impl CubeSet {
     fn is_possible(&self) -> bool {
-        return self.red <= VALID_GAME.red && self.green <= VALID_GAME.green && self.blue <= VALID_GAME.blue;
+        self.red <= VALID_GAME.red && self.green <= VALID_GAME.green && self.blue <= VALID_GAME.blue
     }
 
     fn get_min_count_to_possible(&self, right: &Self) -> Self {
@@ -21,7 +21,6 @@ impl CubeSet {
     }
 }
 
-
 const VALID_GAME: CubeSet = CubeSet {
     red: 12,
     green: 13,
@@ -32,15 +31,13 @@ pub struct Day2;
 
 impl Solution for Day2 {
     fn name(&self) -> String {
-        return "Day 2".into();
+        "Day 2".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         parse_lines(input)
             .iter()
             .enumerate()
-            .filter(|(_, games)| {
-                games.iter().all(|game| game.is_possible())
-            })
+            .filter(|(_, games)| games.iter().all(|game| game.is_possible()))
             .map(|i| i.0 + 1)
             .sum::<usize>()
             .into()
@@ -62,7 +59,7 @@ impl Solution for Day2 {
 }
 
 fn parse_lines(input: &str) -> Vec<Vec<CubeSet>> {
-    let items: Vec<Vec<CubeSet>> = input
+    input
         .lines()
         .map(|line| {
             let cubes = line.split_once(':').unwrap().1;
@@ -77,21 +74,20 @@ fn parse_lines(input: &str) -> Vec<Vec<CubeSet>> {
                         "red" => cube_set.red += count,
                         "green" => cube_set.green += count,
                         "blue" => cube_set.blue += count,
-                        _ => unreachable!()
+                        _ => unreachable!(),
                     }
                 }
                 sets.push(cube_set)
             }
             sets
-        }).collect();
-    return items;
+        })
+        .collect::<Vec<Vec<CubeSet>>>()
 }
-
 
 #[cfg(test)]
 mod test {
+    use super::Day2;
     use common::{Answer, Solution};
-    use super::{Day2};
 
     const CASE_A: &str = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
@@ -106,7 +102,6 @@ Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 ";
-
 
     #[test]
     fn test_part_one() {

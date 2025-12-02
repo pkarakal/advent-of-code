@@ -1,32 +1,27 @@
-use itertools::Itertools;
 use common::{Answer, Solution};
+use itertools::Itertools;
 
 const SPEED: u64 = 1;
 
 #[derive(Default, Debug)]
 struct Race {
     time: u64,
-    distance: u64
+    distance: u64,
 }
 
 impl Race {
     fn get_winning_ways(&self) -> usize {
-        let count = (0..self.time)
-            .into_iter()
-            .filter(|x| (self.time - x) * SPEED*x > self.distance)
+        (0..self.time)
+            .filter(|x| (self.time - x) * SPEED * x > self.distance)
             .count()
-            .into();
-
-        return count;
-
     }
 }
 
 pub struct Day6;
 
-impl Solution for Day6{
+impl Solution for Day6 {
     fn name(&self) -> String {
-        return "Day 6".into()
+        "Day 6".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
@@ -38,9 +33,7 @@ impl Solution for Day6{
     }
 
     fn part_two(&self, input: &str) -> Answer {
-        parse_two(input)
-            .get_winning_ways()
-            .into()
+        parse_two(input).get_winning_ways().into()
     }
 }
 
@@ -55,14 +48,11 @@ fn parse_one(input: &str) -> Vec<Race> {
         .next_tuple()
         .unwrap();
 
-    times.zip(distances)
-        .map(|(time,distance)| {
-          Race{time, distance}
-        })
+    times
+        .zip(distances)
+        .map(|(time, distance)| Race { time, distance })
         .collect::<Vec<Race>>()
-        .into()
 }
-
 
 fn parse_two(input: &str) -> Race {
     let (time, distance) = input
@@ -76,14 +66,13 @@ fn parse_two(input: &str) -> Race {
         })
         .next_tuple()
         .unwrap();
-    return Race {time, distance}
+    Race { time, distance }
 }
-
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_6::Day6;
+    use common::Solution;
 
     const CASE_A: &str = "Time:      7  15   30
 Distance:  9  40  200

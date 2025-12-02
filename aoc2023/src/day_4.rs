@@ -1,21 +1,21 @@
-use std::collections::HashMap;
 use common::{Answer, Solution};
+use std::collections::HashMap;
 
 pub struct Day4;
 
 impl Solution for Day4 {
     fn name(&self) -> String {
-        return "Day 4".into();
+        "Day 4".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
-        return parse(input)
+        parse(input)
             .iter()
             .map(|x| x.get_winning_numbers())
             .filter(|x| *x > 0)
             .map(|x| 2u32.pow((x - 1) as u32))
             .sum::<u32>()
-            .into();
+            .into()
     }
 
     fn part_two(&self, input: &str) -> Answer {
@@ -34,7 +34,7 @@ impl Solution for Day4 {
                 .filter(|x| card.winning.contains(x))
                 .count();
             for j in 1..=nums {
-                *copies.entry(i+j+1).or_default() += copies[&(i+1)];
+                *copies.entry(i + j + 1).or_default() += copies[&(i + 1)];
             }
         }
         copies.values().sum::<usize>().into()
@@ -57,28 +57,32 @@ impl Card {
     }
 }
 
-
 fn parse(input: &str) -> Vec<Card> {
     let mut cards = vec![];
     for (index, input_line) in input.lines().enumerate() {
         let (_, line) = input_line.split_once(":").unwrap();
         let (winning_numbers, scratch_numbers) = line.trim().split_once("|").unwrap();
-        let winning: Vec<u32> = winning_numbers.trim().split_whitespace().map(|x| x.parse().unwrap()).collect();
-        let scratch: Vec<u32> = scratch_numbers.trim().split_whitespace().map(|x| x.parse().unwrap()).collect();
+        let winning: Vec<u32> = winning_numbers
+            .split_whitespace()
+            .map(|x| x.parse().unwrap())
+            .collect();
+        let scratch: Vec<u32> = scratch_numbers
+            .split_whitespace()
+            .map(|x| x.parse().unwrap())
+            .collect();
         cards.push(Card {
             number: index + 1,
             winning,
             scratch,
         })
     }
-    return cards;
+    cards
 }
-
 
 #[cfg(test)]
 mod test {
-    use common::{Answer, Solution};
     use crate::day_4::Day4;
+    use common::{Answer, Solution};
 
     const CASE_A: &str = "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19

@@ -4,14 +4,14 @@ pub struct Day4;
 
 impl Solution for Day4 {
     fn name(&self) -> String {
-        return "Day 4".into();
+        "Day 4".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let items = parse(input);
 
-        let rows = items.len();
-        let cols = items[0].len();
-    
+        let _rows = items.len();
+        let _cols = items[0].len();
+
         let target = "XMAS".chars().collect::<Vec<char>>();
         let rows = items.len() as i64;
         let cols = items[0].len() as i64;
@@ -26,21 +26,20 @@ impl Solution for Day4 {
             (1, -1),
             (-1, 1),
         ];
-        
 
         let mut count = 0i64;
         for i in 0..rows {
             for j in 0..cols {
                 for &(dx, dy) in &directions {
                     let mut found = true;
-                    for k in 0..target.len() {
+                    for (k, &item) in target.iter().enumerate() {
                         let x = i + dx * k as i64;
                         let y = j + dy * k as i64;
                         if x < 0
                             || y < 0
                             || x >= rows
                             || y >= cols
-                            || items[x as usize][y as usize] != target[k]
+                            || items[x as usize][y as usize] != item
                         {
                             found = false;
                             break;
@@ -115,19 +114,14 @@ fn is_xmas_pattern(grid: &[Vec<char>], row: i64, col: i64) -> bool {
     false
 }
 
-
 fn parse(input: &str) -> Vec<Vec<char>> {
-    input
-        .lines()
-        .map(|line| line.chars().collect())
-        .collect()
+    input.lines().map(|line| line.chars().collect()).collect()
 }
-
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_4::Day4;
+    use common::Solution;
 
     const CASE_A: &str = "MMMSXXMASM
 MSAMXMSMSA

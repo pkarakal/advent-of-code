@@ -5,37 +5,38 @@ pub struct Day5;
 
 impl Solution for Day5 {
     fn name(&self) -> String {
-        return "Day 5".into();
+        "Day 5".into()
     }
 
     fn part_one(&self, input: &str) -> Answer {
         // println!("{input}");
-        let RangeResult  {seeds, mappings}  = parse(input);
+        let RangeResult { seeds, mappings } = parse(input);
 
-        let min = seeds.par_iter().map(|s| find_location(&mappings, *s)).min().unwrap();
+        let min = seeds
+            .par_iter()
+            .map(|s| find_location(&mappings, *s))
+            .min()
+            .unwrap();
 
-        return min.into();
+        min.into()
     }
 
     // TODO: optimize part two and fix off-by-one bug
     fn part_two(&self, input: &str) -> Answer {
-        let RangeResult {seeds, mappings} = parse(input);
-        let seed_ranges =
-            seeds
-                .chunks_exact(2)
-                .flat_map(|chunk| {
-                    chunk[0]..chunk[0]+chunk[1]
-                })
-                .collect::<Vec<_>>();
+        let RangeResult { seeds, mappings } = parse(input);
+        let seed_ranges = seeds
+            .chunks_exact(2)
+            .flat_map(|chunk| chunk[0]..chunk[0] + chunk[1])
+            .collect::<Vec<_>>();
 
-        seed_ranges.par_iter()
+        seed_ranges
+            .par_iter()
             .map(|s| find_location(&mappings, *s))
             .min()
             .unwrap()
             .into()
     }
 }
-
 
 fn parse(input: &str) -> RangeResult {
     let mut parse_result = RangeResult::default();
@@ -47,7 +48,6 @@ fn parse(input: &str) -> RangeResult {
         .split(":")
         .last()
         .unwrap()
-        .trim()
         .split_whitespace()
         .map(|x| x.parse().unwrap())
         .collect::<Vec<u64>>();
@@ -57,11 +57,9 @@ fn parse(input: &str) -> RangeResult {
     let mut maps = vec![];
 
     let ranges = input_categories
-        .into_iter()
         .filter(|x| !x.is_empty())
         .map(|x| x.split(":").last().unwrap())
         .collect::<Vec<&str>>();
-
 
     for range in ranges {
         let mut map_ranges: Vec<Conversion> = vec![];
@@ -72,7 +70,6 @@ fn parse(input: &str) -> RangeResult {
                 .map(|x| x.parse().unwrap())
                 .collect::<Vec<u64>>();
 
-
             let mut iter_parts = parts.into_iter();
 
             map_ranges.push(Conversion {
@@ -81,13 +78,12 @@ fn parse(input: &str) -> RangeResult {
                 length: iter_parts.next().unwrap(),
             });
         }
-        maps.push(CategoryMap{ ranges: map_ranges })
+        maps.push(CategoryMap { ranges: map_ranges })
     }
     parse_result.mappings = maps;
 
     parse_result
 }
-
 
 #[derive(Default, Debug)]
 struct RangeResult {
@@ -95,10 +91,9 @@ struct RangeResult {
     mappings: Vec<CategoryMap>,
 }
 
-
 #[derive(Default, Debug)]
 struct CategoryMap {
-    ranges: Vec<Conversion>
+    ranges: Vec<Conversion>,
 }
 
 impl CategoryMap {
@@ -111,7 +106,7 @@ impl CategoryMap {
 }
 
 // Step through the maps and until we find the location
-fn find_location(maps: &Vec<CategoryMap>, location: u64) -> u64 {
+fn find_location(maps: &[CategoryMap], location: u64) -> u64 {
     maps.iter().fold(location, |loc, map| map.transform(loc))
 }
 
@@ -122,7 +117,7 @@ struct Conversion {
     length: u64,
 }
 
-impl Conversion{
+impl Conversion {
     fn convert(&self, location: u64) -> Option<u64> {
         // Check if location is within range
         let lower_bound = self.source;
@@ -137,11 +132,10 @@ impl Conversion{
     }
 }
 
-
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_5::Day5;
+    use common::Solution;
 
     const CASE_A: &str = "seeds: 79 14 55 13
 
@@ -188,4 +182,3 @@ humidity-to-location map:
         assert_eq!(Day5.part_two(CASE_A), 46u64.into())
     }
 }
-

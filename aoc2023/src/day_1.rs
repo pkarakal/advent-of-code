@@ -1,22 +1,24 @@
 use common::{Answer, Solution};
 
-const DIGITS: [&str; 9] = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const DIGITS: [&str; 9] = [
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+];
 
 pub struct Day1;
 
 impl Solution for Day1 {
     fn name(&self) -> String {
-        return "Day 1".into();
+        "Day 1".into()
     }
     fn part_one(&self, input: &str) -> Answer {
         let mut sum: u32 = 0;
         for line in input.lines() {
             let mut digits = line.chars().filter_map(|i| i.to_digit(10));
             let first = digits.next().unwrap();
-            let last = digits.last().unwrap_or(first);
+            let last = digits.next_back().unwrap_or(first);
             sum += first * 10 + last
         }
-        return sum.into();
+        sum.into()
     }
 
     fn part_two(&self, input: &str) -> Answer {
@@ -27,7 +29,7 @@ impl Solution for Day1 {
             sum += first * 10 + last;
         }
 
-        return sum.into();
+        sum.into()
     }
 }
 
@@ -54,14 +56,13 @@ fn extract_digits(line: &str) -> (u32, u32) {
             }
         }
     }
-    return (first.unwrap(), last);
+    (first.unwrap(), last)
 }
-
 
 #[cfg(test)]
 mod test {
+    use super::Day1;
     use common::{Answer, Solution};
-    use super::{Day1};
 
     const CASE_A: &str = "1abc2
 pqr3stu8vwx
