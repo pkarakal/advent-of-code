@@ -65,6 +65,7 @@ version = "0.1.0"
 dependencies = [
  "aoc2023",
  "aoc2024",
+ "aoc2025",
  "clap",
  "common",
  "serde",
@@ -82,6 +83,16 @@ dependencies = [
 
 [[package]]
 name = "aoc2024"
+version = "0.1.0"
+dependencies = [
+ "common",
+ "itertools",
+ "rayon",
+ "regex",
+]
+
+[[package]]
+name = "aoc2025"
 version = "0.1.0"
 dependencies = [
  "common",

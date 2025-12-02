@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Pavlos Karakalidis <pkarakal@pkarakal.com>"]
 
 [workspace]
-members = ["aoc2023", "aoc2024", "common"]
+members = ["aoc2023", "aoc2024", "aoc2025", "common"]
 
 [dependencies]
 clap = { version = "4.4.10", features = ["default", "derive"] }
@@ -13,4 +13,5 @@ serde = {version = "1.0.193", features = ["derive"]}
 serde_json = { version = "1.0.108" }
 aoc2023 = {path = "aoc2023"}
 aoc2024 = {path = "aoc2024"}
+aoc2025 = {path = "aoc2025"}
 common = {path = "common"}
