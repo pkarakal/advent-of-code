@@ -1,6 +1,8 @@
 use common::{Answer, Solution};
 
-const DIGITS: [&str; 9] = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const DIGITS: [&str; 9] = [
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+];
 
 pub struct Day1;
 
@@ -57,11 +59,10 @@ fn extract_digits(line: &str) -> (u32, u32) {
     (first.unwrap(), last)
 }
 
-
 #[cfg(test)]
 mod test {
+    use super::Day1;
     use common::{Answer, Solution};
-    use super::{Day1};
 
     const CASE_A: &str = "1abc2
 pqr3stu8vwx

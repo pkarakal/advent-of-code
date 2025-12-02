@@ -1,5 +1,5 @@
-use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use common::{Answer, Solution};
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
 
 #[derive(Debug, PartialEq)]
 struct Range {
@@ -19,17 +19,16 @@ impl Solution for Day2 {
         // 0u64.into()
         ranges
             .into_iter()
-            .flat_map(|range|
-                     (range.start..=range.end)
-                         .filter(|&i| {
-                             let n_str = i.to_string();
-                             if n_str.len() % 2 != 0 {
-                                 return false;
-                             }
-                             let mid = n_str.len() / 2;
-                             n_str[..mid] == n_str[mid..]
-                         })
-            )
+            .flat_map(|range| {
+                (range.start..=range.end).filter(|&i| {
+                    let n_str = i.to_string();
+                    if n_str.len() % 2 != 0 {
+                        return false;
+                    }
+                    let mid = n_str.len() / 2;
+                    n_str[..mid] == n_str[mid..]
+                })
+            })
             .sum::<usize>()
             .into()
     }
@@ -39,22 +38,21 @@ impl Solution for Day2 {
 
         ranges
             .into_par_iter()
-            .flat_map(|range| (range.start..=range.end)
-                .into_par_iter()
-                .filter(|&i| {
+            .flat_map(|range| {
+                (range.start..=range.end).into_par_iter().filter(|&i| {
                     let s = i.to_string();
                     let n_bytes = s.as_bytes();
                     let len = n_bytes.len();
                     let mid = len / 2;
 
                     (1..=mid).any(|pattern_len| {
-                        len % pattern_len == 0 &&
-                            n_bytes
+                        len % pattern_len == 0
+                            && n_bytes
                                 .chunks_exact(pattern_len)
                                 .all(|chunk| chunk == &n_bytes[0..pattern_len])
                     })
                 })
-            )
+            })
             .sum::<usize>()
             .into()
     }
@@ -81,8 +79,8 @@ fn parse(input: &str) -> Vec<Range> {
 
 #[cfg(test)]
 mod test {
+    use crate::day_2::{parse, Day2, Range};
     use common::Solution;
-    use crate::day_2::{Day2, parse, Range};
 
     const CASE_A: &str = "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,
 1698522-1698528,446443-446449,38593856-38593862,565653-565659,
@@ -91,21 +89,51 @@ mod test {
     #[test]
     fn test_parse() {
         let expected = vec![
-            Range{start:11, end:22},
-            Range{start:95, end:115},
-            Range{start:998, end:1012},
-            Range{start:1188511880, end:1188511890},
-            Range{start:222220, end:222224},
-            Range{start:1698522, end:1698528},
-            Range{start:446443, end:446449},
-            Range{start:38593856, end:38593862},
-            Range{start:565653, end:565659},
-            Range{start:824824821, end:824824827},
-            Range{start:2121212118, end:2121212124},
+            Range { start: 11, end: 22 },
+            Range {
+                start: 95,
+                end: 115,
+            },
+            Range {
+                start: 998,
+                end: 1012,
+            },
+            Range {
+                start: 1188511880,
+                end: 1188511890,
+            },
+            Range {
+                start: 222220,
+                end: 222224,
+            },
+            Range {
+                start: 1698522,
+                end: 1698528,
+            },
+            Range {
+                start: 446443,
+                end: 446449,
+            },
+            Range {
+                start: 38593856,
+                end: 38593862,
+            },
+            Range {
+                start: 565653,
+                end: 565659,
+            },
+            Range {
+                start: 824824821,
+                end: 824824827,
+            },
+            Range {
+                start: 2121212118,
+                end: 2121212124,
+            },
         ];
         let got = parse(CASE_A);
         assert_eq!(got, expected);
-        assert_eq!(got[0], Range{start:11, end:22});
+        assert_eq!(got[0], Range { start: 11, end: 22 });
     }
 
     #[test]

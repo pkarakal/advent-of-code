@@ -1,5 +1,5 @@
-use std::collections::{HashMap, HashSet};
 use common::{Answer, Solution};
+use std::collections::{HashMap, HashSet};
 
 pub struct Day3;
 
@@ -50,7 +50,7 @@ impl Coordinates {
 #[derive(Default, Debug)]
 struct ParsedInput {
     gears: Vec<Gear>,
-    ratios: HashMap<Coordinates, Vec<u32>>
+    ratios: HashMap<Coordinates, Vec<u32>>,
 }
 
 fn parse(input: &str) -> ParsedInput {
@@ -106,11 +106,9 @@ fn parse(input: &str) -> ParsedInput {
             }
         };
 
-
-
         for (x_index, c) in line.iter().enumerate() {
             if c.is_numeric() {
-                if pos.is_none(){
+                if pos.is_none() {
                     pos = Some(x_index)
                 }
             } else {
@@ -122,16 +120,13 @@ fn parse(input: &str) -> ParsedInput {
         check(pos, line.len());
     }
 
-
-    ParsedInput{ gears, ratios}
+    ParsedInput { gears, ratios }
 }
-
-
 
 #[cfg(test)]
 mod test {
-    use common::{Answer, Solution};
     use crate::day_3::Day3;
+    use common::{Answer, Solution};
 
     const CASE_A: &str = "467..114..
 ...*......
@@ -145,7 +140,7 @@ mod test {
 .664.598..";
 
     #[test]
-    fn test_part_one(){
+    fn test_part_one() {
         assert_eq!(Day3.part_one(CASE_A), Answer::U32(4361))
     }
 

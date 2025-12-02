@@ -1,5 +1,5 @@
+use common::{lcm, Answer, Solution};
 use std::collections::HashMap;
-use common::{Answer, lcm, Solution};
 
 #[derive(Debug)]
 enum Instruction {
@@ -12,7 +12,7 @@ impl From<char> for Instruction {
         match n {
             'L' => Self::Left,
             'R' => Self::Right,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -28,7 +28,7 @@ impl<'a> InstructionMap<'a> {
         let (left, right) = self.nodes.get(pos).unwrap();
         match instruction {
             Instruction::Left => left,
-            Instruction::Right => right
+            Instruction::Right => right,
         }
     }
 }
@@ -61,8 +61,8 @@ impl Solution for Day8 {
     fn part_two(&self, input: &str) -> Answer {
         let map = parse(input);
 
-
-        let start_locations = map.nodes
+        let start_locations = map
+            .nodes
             .keys()
             .filter(|x| x.ends_with('A'))
             .cloned()
@@ -86,7 +86,10 @@ impl Solution for Day8 {
             }
         }
 
-        cycles.into_iter().fold(1, |acc: usize, s:usize | lcm(acc, s)).into()
+        cycles
+            .into_iter()
+            .fold(1, |acc: usize, s: usize| lcm(acc, s))
+            .into()
     }
 }
 
@@ -118,8 +121,8 @@ fn parse(input: &'_ str) -> InstructionMap<'_> {
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_8::Day8;
+    use common::Solution;
 
     const CASE_A: &str = "LLR
 

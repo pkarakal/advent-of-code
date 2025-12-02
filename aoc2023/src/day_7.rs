@@ -1,10 +1,16 @@
-use std::cmp::Ordering;
-use itertools::Itertools;
+use crate::day_7::CardType::{
+    FiveOfAKind, FourOfAKind, FullHouse, HighCard, OnePair, ThreeOfAKind, TwoPair,
+};
 use common::{Answer, Solution};
-use crate::day_7::CardType::{FiveOfAKind, FourOfAKind, FullHouse, HighCard, OnePair, ThreeOfAKind, TwoPair};
+use itertools::Itertools;
+use std::cmp::Ordering;
 
-const CARD_SEQUENCE_A: [&str; 13] = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
-const CARD_SEQUENCE_B: [&str; 13] = ["A", "K", "Q", "T", "9", "8", "7", "6", "5", "4", "3", "2", "J"];
+const CARD_SEQUENCE_A: [&str; 13] = [
+    "A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2",
+];
+const CARD_SEQUENCE_B: [&str; 13] = [
+    "A", "K", "Q", "T", "9", "8", "7", "6", "5", "4", "3", "2", "J",
+];
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord)]
 enum CardType {
@@ -16,7 +22,6 @@ enum CardType {
     OnePair,
     HighCard,
 }
-
 
 #[derive(Default, Debug)]
 struct CamelCard {
@@ -76,7 +81,9 @@ impl CamelCard {
             FiveOfAKind
         } else if counts[0] + jacks == 4 {
             FourOfAKind
-        } else if (counts[0] == 3 && counts[1] + jacks == 2) || (counts[0] + jacks == 3 && counts[1] == 2) {
+        } else if (counts[0] == 3 && counts[1] + jacks == 2)
+            || (counts[0] + jacks == 3 && counts[1] == 2)
+        {
             FullHouse
         } else if counts[0] + jacks == 3 {
             ThreeOfAKind
@@ -99,12 +106,7 @@ impl Solution for Day7 {
 
     fn part_one(&self, input: &str) -> Answer {
         let mut items = parse(input, CARD_SEQUENCE_A.iter().join(""));
-        items
-            .sort_by(|a, b| {
-                a.classify()
-                    .cmp(&b.classify())
-                    .then_with(|| b.compare(a))
-            });
+        items.sort_by(|a, b| a.classify().cmp(&b.classify()).then_with(|| b.compare(a)));
         items
             .iter()
             .rev()
@@ -116,12 +118,7 @@ impl Solution for Day7 {
 
     fn part_two(&self, input: &str) -> Answer {
         let mut items = parse(input, CARD_SEQUENCE_B.iter().join(""));
-        items
-            .sort_by(|a, b| {
-                a.optimize()
-                    .cmp(&b.optimize())
-                    .then_with(|| b.compare(a))
-            });
+        items.sort_by(|a, b| a.optimize().cmp(&b.optimize()).then_with(|| b.compare(a)));
         items
             .iter()
             .rev()
@@ -139,7 +136,8 @@ fn parse(input: &str, card_sequence: String) -> Vec<CamelCard> {
         let cards = line.split_whitespace().next().unwrap();
         let bid = line.split_whitespace().last().unwrap();
 
-        let cards = cards.as_bytes()
+        let cards = cards
+            .as_bytes()
             .iter()
             .map(|&c| 13 - card_sequence.find(c as char).unwrap() as u8)
             .collect();
@@ -153,8 +151,8 @@ fn parse(input: &str, card_sequence: String) -> Vec<CamelCard> {
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_7::Day7;
+    use common::Solution;
 
     const CASE_A: &str = "32T3K 765
 T55J5 684

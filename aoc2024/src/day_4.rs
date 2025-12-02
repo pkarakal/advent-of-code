@@ -11,7 +11,7 @@ impl Solution for Day4 {
 
         let _rows = items.len();
         let _cols = items[0].len();
-    
+
         let target = "XMAS".chars().collect::<Vec<char>>();
         let rows = items.len() as i64;
         let cols = items[0].len() as i64;
@@ -26,7 +26,6 @@ impl Solution for Day4 {
             (1, -1),
             (-1, 1),
         ];
-        
 
         let mut count = 0i64;
         for i in 0..rows {
@@ -115,19 +114,14 @@ fn is_xmas_pattern(grid: &[Vec<char>], row: i64, col: i64) -> bool {
     false
 }
 
-
 fn parse(input: &str) -> Vec<Vec<char>> {
-    input
-        .lines()
-        .map(|line| line.chars().collect())
-        .collect()
+    input.lines().map(|line| line.chars().collect()).collect()
 }
-
 
 #[cfg(test)]
 mod test {
-    use common::Solution;
     use crate::day_4::Day4;
+    use common::Solution;
 
     const CASE_A: &str = "MMMSXXMASM
 MSAMXMSMSA
